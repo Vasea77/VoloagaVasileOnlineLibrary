@@ -1,0 +1,61 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@model IEnumerable<OnlineLibrary.Models.UserViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Users Index</h2>
+<h6>Total Record Count : @ViewBag.Count</h6>
+<br/>
+<p>
+    @Html.ActionLink("Create New User", "Create", routeValues:null, htmlAttributes: new { @class = "btn btn-default" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.ActionLink("Sort by", "Index", new {sortorder = ViewBag.FirstNameSortParam}, htmlAttributes: new {@class = "btn btn-default"})
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+            @Html.ActionLink("Sort by", "Index", new {sortorder = ViewBag.LastNameSortParam}, htmlAttributes: new {@class = "btn btn-default"})
+
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ID }, htmlAttributes: new { @class = "btn btn-default" }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ID }, htmlAttributes: new { @class = "btn btn-default" }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ID }, htmlAttributes: new { @class = "btn btn-default" })
+            </td>
+        </tr>
+    }
+
+</table>
+<div>
+    Page @ViewBag.Currentpage of @ViewBag.TotalPages    
+</div>
+<br />
+<div>
+    @Html.ActionLink("<<", "Index", "Users", new { page = 1 }, htmlAttributes: new { @class = "btn btn-default" })
+
+    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+    {
+        @Html.ActionLink("Page " + i.ToString() + " ", "Index", "Users", new { page = i, sortorder = ViewBag.CurrentSortOrder }, htmlAttributes: new { @class = "btn btn-default" })
+    }
+    @Html.ActionLink(">>", "Index", "Users", new { page = ViewBag.TotalPages }, htmlAttributes: new { @class = "btn btn-default" })
+
+</div>
+<br />
